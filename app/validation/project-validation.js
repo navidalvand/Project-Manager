@@ -18,9 +18,9 @@ function createProjectValidator() {
 function projectImageValidator() {
   return [
     body("image").custom((image, { req }) => {
+      console.log(req.image);
       if (Object.keys(req.files.image).length == 0)
       throw { status: 400, message: "please select a image" };
-      console.log(req.files.image);
         const ext = path.extname(req.files.image.name)
         console.log(ext);
         const exts = [".jpg" , ".png" , ".jpeg" , ".gif" , ".jfif"]

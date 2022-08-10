@@ -22,7 +22,6 @@ router.post(
 router.post(
   "/upload-profile/:id",
   checkLogin,
-  projectImageValidator(),
   fileUpload(),
   uploadFile,
   ProjectController.uploadProjectProfile
@@ -40,7 +39,7 @@ router.patch("/update/:id" , checkLogin , ProjectController.updateProject)
 //TODO                            OK------------
 router.delete("/delete/:id" , checkLogin , ProjectController.deleteProject)
 //TODO                            OK------------
-router.get("/:id", ProjectController.getProjectById)
+router.get("/:id", checkLogin , ProjectController.getProjectById)
 
 module.exports = {
   projectRouter: router,

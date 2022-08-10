@@ -5,12 +5,10 @@ const checkLogin = async (req, res, next) => {
   try {
     const authorization = req?.headers?.authentication;
     if (!authorization) {
-      console.log(1);
       throw { status: 401, message: "please login into your account" };
     } else {
       let token = authorization.split(" ")?.[1];
       if (!token) {
-        console.log(2);
         throw { status: 401, message: "please login into your account" };
       } else {
         const result = tokenValidator(token);

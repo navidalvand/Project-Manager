@@ -4,7 +4,7 @@ const { ProjectModel } = require("../models/project-model");
 class ProjectController {
   async createProject(req, res, next) {
     try {
-      const { title, privateProject, description , tags} = req.body;
+      const { title, privateProject, description, tags } = req.body;
       const owner = req.user;
       const checkExist = await ProjectModel.findOne({
         owner: owner._id,
@@ -49,22 +49,19 @@ class ProjectController {
   async uploadProjectProfile(req, res, next) {
     try {
       const owner = req.user;
-      const projectID = req.params.id;
-      const resultValidate = validationResult(req);
-      if (resultValidate.errors.length > 0) {
-        res.status(401).json({
-          status: 401,
-          data: null,
-          errors: resultValidate,
-        });
-      } else {
-        const result = await ProjectModel.updateOne({
-          owner: owner._id,
-          _id: projectID,
-        });
-        if (!result)
-          throw { status: 400, message: "project with this id not found" };
-      }
+      const ID = req.params.id;
+      const image = req.body.image
+      console.log(image);
+      const result = await ProjectModel.updateOne({
+        owner: owner._id,
+        _id: ID,
+      } , {image});
+      if (!result)
+        throw { status: 400, message: "project with this id not found" };
+        return res.status(200).json({
+          status : 200 ,
+          message : "profile picture uploaded",
+        })
     } catch (error) {
       next(error);
     }
@@ -83,13 +80,6 @@ class ProjectController {
     }
   }
 
-  async getProjectById(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async getAllProjectByTeam(req, res, next) {
     try {
     } catch (error) {
@@ -100,7 +90,7 @@ class ProjectController {
   async getAllProjectByUser(req, res, next) {
     try {
       const projectOwner = req.user;
-      const result = await ProjectModel.find({ owner: projectOwner });
+      const result = await ProjectModel.find({ owner: projectOwner._id });
       res.status(200).json({
         status: 200,
         message: "all user projects",
@@ -121,7 +111,8 @@ class ProjectController {
 
       const { title, description, privateProject } = req.body;
       if (title || description || privateProject) {
-        if(title == result.title) throw {status : 400 , message : "this title already exist"}
+        if (title == result.title)
+          throw { status: 400, message: "this title already exist" };
         ProjectModel.updateOne(
           { _id: ID },
           { title, description, privateProject },
@@ -143,29 +134,35 @@ class ProjectController {
 
   async deleteProject(req, res, next) {
     try {
-      const owner = req.user
-      const ID = req.params.id
-      const deletedProject = await ProjectModel.findByIdAndDelete(ID)
-      if(!deletedProject) throw {status : 400, message : "project with this id not found"}
+      const owner = req.user;
+      const ID = req.params.id;
+      const deletedProject = await ProjectModel.findOneAndDelete({
+        _id: ID,
+        owner: owner._id,
+      });
+      if (!deletedProject)
+        throw { status: 400, message: "project with this id not found" };
       res.status(200).json({
-        status : 200,
-        message : "project deleted",
-        deletedProject
-      })
+        status: 200,
+        message: "project deleted",
+        deletedProject,
+      });
     } catch (error) {
       next(error);
     }
   }
 
-  async getProjectById (req , res , next) {
-    const ID = req.params.id
-    const result = await ProjectModel.findById(ID)
-    if(!result) throw {status : 400 , message : "project with this id not found"}
+  async getProjectById(req, res, next) {
+    const owner = req.user;
+    const ID = req.params.id;
+    const result = await ProjectModel.findById(ID);
+    if (!result)
+      throw { status: 400, message: "project with this id not found" };
     res.status(200).json({
-      status : 200,
-      message : "project with ID",
-      project : result
-    })
+      status: 200,
+      message: "project with ID",
+      project: result,
+    });
   }
 }
 
