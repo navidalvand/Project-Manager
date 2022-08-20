@@ -1,17 +1,53 @@
 class TeamController {
-  createTeam() {}
+  async createTeam(req, res, next) {
+    try {
+      
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  getAllTeams() {}
+  async getAllTeams(req, res, next) {
+    try {
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  inviteUser() {}
+  async inviteUser(req, res, next) {
+    try {
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  getTeamById() {}
+  async getTeamById(req, res, next) {
+    try {
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  getAllTeamByUser() {}
+  async getAllTeamByUser(req, res, next) {
+    try {
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  updateTeam() {}
+  async updateTeam(req, res, next) {
+    try {
+    } catch (err) {
+      next(err);
+    }
+  }
 
-  deleteTeam() {}
+  async deleteTeam(req, res, next) {
+    try {
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = {

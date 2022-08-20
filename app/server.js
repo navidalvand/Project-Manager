@@ -117,13 +117,5 @@ module.exports = class Application {
       });
     });
     app.use(allRoutes);
-    // app.use((err , req, res, next) => {
-    //   try {
-
-    //   } catch (error) {
-    //     console.log(error);
-    //     next(error);
-    //   }
-    // });
   }
 };
